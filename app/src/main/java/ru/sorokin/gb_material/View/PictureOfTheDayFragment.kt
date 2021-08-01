@@ -30,7 +30,7 @@ class PictureOfTheDayFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.getData()
-            .observe(this@PictureOfTheDayFragment, Observer<PictureOfTheDayData> { renderData(it) })
+            .observe(viewLifecycleOwner, Observer<PictureOfTheDayData> { renderData(it) })
     }
 
     override fun onCreateView(
