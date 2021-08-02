@@ -1,8 +1,8 @@
-package ru.sorokin.gb_material
+package ru.sorokin.gb_material.View
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import ru.sorokin.gb_material.View.PictureOfTheDayFragment
+import ru.sorokin.gb_material.R
 
 class MainActivity : AppCompatActivity() {
 

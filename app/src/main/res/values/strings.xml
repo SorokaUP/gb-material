@@ -8,4 +8,7 @@
     <string name="search">Search</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="photoBack2">Фото позавчера</string>
+    <string name="photoBack1">Фото вчера</string>
+    <string name="photoToday">Фото дня</string>
 </resources>

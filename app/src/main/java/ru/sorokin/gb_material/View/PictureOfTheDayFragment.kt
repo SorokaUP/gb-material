@@ -13,10 +13,11 @@ import androidx.lifecycle.ViewModelProviders
 import coil.api.load
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.chip.Chip
+import kotlinx.android.synthetic.main.fragment_chips.*
 import ru.sorokin.gb_material.R
-import ru.sorokin.gb_material.MainActivity
-import ru.sorokin.gb_material.View.ChipsFragment
 import kotlinx.android.synthetic.main.main_fragment.*
+import kotlinx.android.synthetic.main.main_fragment.chipGroup
 import ru.sorokin.gb_material.Model.PictureOfTheDayData
 import ru.sorokin.gb_material.ViewModel.PictureOfTheDayViewModel
 
@@ -29,7 +30,7 @@ class PictureOfTheDayFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.getData()
+        viewModel.getDataToday()
             .observe(viewLifecycleOwner, Observer<PictureOfTheDayData> { renderData(it) })
     }
 
@@ -47,6 +48,22 @@ class PictureOfTheDayFragment : Fragment() {
             startActivity(Intent(Intent.ACTION_VIEW).apply {
                 data = Uri.parse("https://en.wikipedia.org/wiki/${input_edit_text.text.toString()}")
             })
+        }
+        chipGroup.setOnCheckedChangeListener { chipGroup, position ->
+            chipGroup.findViewById<Chip>(position)?.let {
+                //toast("Выбран ${it.text}")
+                when (it.id) {
+                    R.id.photoToday -> {
+                        viewModel.getDataToday()
+                    }
+                    R.id.photoBack1 -> {
+                        viewModel.getDataBack1()
+                    }
+                    R.id.photoBack2 -> {
+                        viewModel.getDataBack2()
+                    }
+                }
+            }
         }
         setBottomAppBar(view)
     }

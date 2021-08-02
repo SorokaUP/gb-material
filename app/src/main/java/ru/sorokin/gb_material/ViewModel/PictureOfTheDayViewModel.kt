@@ -10,6 +10,10 @@ import ru.sorokin.gb_material.BuildConfig
 import ru.sorokin.gb_material.Model.PODRetrofitImpl
 import ru.sorokin.gb_material.Model.PODServerResponseData
 import ru.sorokin.gb_material.Model.PictureOfTheDayData
+import java.text.SimpleDateFormat
+import java.util.*
+
+const val DATE_FORMAT = "yyyy-MM-dd";
 
 class PictureOfTheDayViewModel(
     private val liveDataForViewToObserve: MutableLiveData<PictureOfTheDayData> = MutableLiveData(),
@@ -17,18 +21,34 @@ class PictureOfTheDayViewModel(
 ) :
     ViewModel() {
 
-    fun getData(): LiveData<PictureOfTheDayData> {
-        sendServerRequest()
+    fun getDataToday(): LiveData<PictureOfTheDayData> {
+        sendServerRequest(0)
         return liveDataForViewToObserve
     }
 
-    private fun sendServerRequest() {
+    fun getDataBack1(): LiveData<PictureOfTheDayData> {
+        sendServerRequest(1)
+        return liveDataForViewToObserve
+    }
+
+    fun getDataBack2(): LiveData<PictureOfTheDayData> {
+        sendServerRequest(2)
+        return liveDataForViewToObserve
+    }
+
+    private fun sendServerRequest(minusDays: Int) {
+        val date = SimpleDateFormat(DATE_FORMAT, Locale.getDefault())
+            .format(
+                Calendar.getInstance().apply {
+                    this.add(Calendar.DATE, -minusDays)
+                }.time)
+
         liveDataForViewToObserve.value = PictureOfTheDayData.Loading(null)
         val apiKey: String = BuildConfig.NASA_API_KEY
         if (apiKey.isBlank()) {
             PictureOfTheDayData.Error(Throwable("You need API key"))
         } else {
-            retrofitImpl.getRetrofitImpl().getPictureOfTheDay(apiKey).enqueue(object :
+            retrofitImpl.getRetrofitImpl().getPictureOfTheDay(apiKey, date).enqueue(object :
                 Callback<PODServerResponseData> {
                 override fun onResponse(
                     call: Call<PODServerResponseData>,
