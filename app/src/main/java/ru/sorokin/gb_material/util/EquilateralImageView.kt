@@ -1,4 +1,4 @@
-package ru.sorokin.gb_material.Module
+package ru.sorokin.gb_material.util
 
 import android.content.Context
 import android.util.AttributeSet

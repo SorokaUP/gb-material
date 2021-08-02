@@ -11,4 +11,6 @@
     <string name="photoBack2">Фото позавчера</string>
     <string name="photoBack1">Фото вчера</string>
     <string name="photoToday">Фото дня</string>
+    <string name="reload_msg">Попробовать снова</string>
+    <string name="error_server_msg">Ошибка загрузки</string>
 </resources>

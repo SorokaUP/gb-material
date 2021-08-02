@@ -1,4 +1,4 @@
-package ru.sorokin.gb_material.ViewModel
+package ru.sorokin.gb_material.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,31 +7,30 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import ru.sorokin.gb_material.BuildConfig
-import ru.sorokin.gb_material.Model.PODRetrofitImpl
-import ru.sorokin.gb_material.Model.PODServerResponseData
-import ru.sorokin.gb_material.Model.PictureOfTheDayData
+import ru.sorokin.gb_material.model.PODRetrofitImpl
+import ru.sorokin.gb_material.model.PODServerResponseData
 import java.text.SimpleDateFormat
 import java.util.*
 
 const val DATE_FORMAT = "yyyy-MM-dd";
 
-class PictureOfTheDayViewModel(
-    private val liveDataForViewToObserve: MutableLiveData<PictureOfTheDayData> = MutableLiveData(),
+class PODViewModel(
+    private val liveDataForViewToObserve: MutableLiveData<PODState> = MutableLiveData(),
     private val retrofitImpl: PODRetrofitImpl = PODRetrofitImpl()
 ) :
     ViewModel() {
 
-    fun getDataToday(): LiveData<PictureOfTheDayData> {
+    fun getDataToday(): LiveData<PODState> {
         sendServerRequest(0)
         return liveDataForViewToObserve
     }
 
-    fun getDataBack1(): LiveData<PictureOfTheDayData> {
+    fun getDataBack1(): LiveData<PODState> {
         sendServerRequest(1)
         return liveDataForViewToObserve
     }
 
-    fun getDataBack2(): LiveData<PictureOfTheDayData> {
+    fun getDataBack2(): LiveData<PODState> {
         sendServerRequest(2)
         return liveDataForViewToObserve
     }
@@ -43,10 +42,10 @@ class PictureOfTheDayViewModel(
                     this.add(Calendar.DATE, -minusDays)
                 }.time)
 
-        liveDataForViewToObserve.value = PictureOfTheDayData.Loading(null)
+        liveDataForViewToObserve.value = PODState.Loading(null)
         val apiKey: String = BuildConfig.NASA_API_KEY
         if (apiKey.isBlank()) {
-            PictureOfTheDayData.Error(Throwable("You need API key"))
+            PODState.Error(Throwable("You need API key"))
         } else {
             retrofitImpl.getRetrofitImpl().getPictureOfTheDay(apiKey, date).enqueue(object :
                 Callback<PODServerResponseData> {
@@ -56,21 +55,21 @@ class PictureOfTheDayViewModel(
                 ) {
                     if (response.isSuccessful && response.body() != null) {
                         liveDataForViewToObserve.value =
-                            PictureOfTheDayData.Success(response.body()!!)
+                            PODState.Success(response.body()!!)
                     } else {
                         val message = response.message()
                         if (message.isNullOrEmpty()) {
                             liveDataForViewToObserve.value =
-                                PictureOfTheDayData.Error(Throwable("Unidentified error"))
+                                PODState.Error(Throwable("Unidentified error"))
                         } else {
                             liveDataForViewToObserve.value =
-                                PictureOfTheDayData.Error(Throwable(message))
+                                PODState.Error(Throwable(message))
                         }
                     }
                 }
 
                 override fun onFailure(call: Call<PODServerResponseData>, t: Throwable) {
-                    liveDataForViewToObserve.value = PictureOfTheDayData.Error(t)
+                    liveDataForViewToObserve.value = PODState.Error(t)
                 }
             })
         }

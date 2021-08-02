@@ -1,4 +1,4 @@
-package ru.sorokin.gb_material.View
+package ru.sorokin.gb_material.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,7 +11,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.main_activity)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.container, PictureOfTheDayFragment.newInstance())
+                .replace(R.id.container, PODFragment.newInstance())
                 .commitNow()
         }
     }

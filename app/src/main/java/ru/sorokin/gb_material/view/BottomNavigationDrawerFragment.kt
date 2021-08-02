@@ -1,4 +1,4 @@
-package ru.sorokin.gb_material.View
+package ru.sorokin.gb_material.view
 
 import android.os.Bundle
 import android.view.LayoutInflater

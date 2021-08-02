@@ -1,44 +1,50 @@
-package ru.sorokin.gb_material.View
+package ru.sorokin.gb_material.view
 
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import coil.api.load
-import com.google.android.material.bottomappbar.BottomAppBar
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.chip.Chip
-import kotlinx.android.synthetic.main.fragment_chips.*
+import com.squareup.picasso.Callback
+import com.squareup.picasso.Picasso
 import ru.sorokin.gb_material.R
-import kotlinx.android.synthetic.main.main_fragment.*
-import kotlinx.android.synthetic.main.main_fragment.chipGroup
-import ru.sorokin.gb_material.Model.PictureOfTheDayData
-import ru.sorokin.gb_material.ViewModel.PictureOfTheDayViewModel
+import ru.sorokin.gb_material.databinding.BottomSheetLayoutBinding
+import ru.sorokin.gb_material.databinding.PodFragmentBinding
+import ru.sorokin.gb_material.util.*
+import ru.sorokin.gb_material.viewmodel.PODState
+import ru.sorokin.gb_material.viewmodel.PODViewModel
+import java.util.*
 
-class PictureOfTheDayFragment : Fragment() {
+class PODFragment : Fragment() {
 
+    private var _binding: PodFragmentBinding? = null
+    private val binding get() = _binding!!
+
+    private var _bottomSheetBinding: BottomSheetLayoutBinding? = null
+    private val bottomSheetBinding get() = _bottomSheetBinding!!
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
-    private val viewModel: PictureOfTheDayViewModel by lazy {
-        ViewModelProviders.of(this).get(PictureOfTheDayViewModel::class.java)
+
+    private val viewModel: PODViewModel by lazy {
+        ViewModelProvider(this).get(PODViewModel::class.java)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.getDataToday()
-            .observe(viewLifecycleOwner, Observer<PictureOfTheDayData> { renderData(it) })
+            .observe(viewLifecycleOwner, Observer<PODState> { renderData(it) })
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.main_fragment, container, false)
+        _binding = PodFragmentBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -86,27 +92,32 @@ class PictureOfTheDayFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun renderData(data: PictureOfTheDayData) {
+    private fun renderData(data: PODState) {
         when (data) {
-            is PictureOfTheDayData.Success -> {
+            is PODState.Success -> {
                 val serverResponseData = data.serverResponseData
                 val url = serverResponseData.url
-                if (url.isNullOrEmpty()) {
-                    //showError("Сообщение, что ссылка пустая")
-                    toast("Link is empty")
-                } else {
-                    //showSuccess()
-                    image_view.load(url) {
-                        lifecycle(this@PictureOfTheDayFragment)
-                        error(R.drawable.ic_load_error_vector)
-                        placeholder(R.drawable.ic_no_photo_vector)
-                    }
-                }
+
+                Picasso
+                    .get()
+                    .load(url)
+                    .placeholder(R.drawable.ic_no_photo_vector)
+                    .into(image_view, object : Callback {
+                        override fun onSuccess() {
+                            podLoadingLayout.hide()
+                        }
+
+                        override fun onError(e: Exception?) {
+                            podRootView.showSnackBar(getString(R.string.error_server_msg),
+                                getString(R.string.reload_msg),
+                                { getData() })
+                        }
+                    })
             }
-            is PictureOfTheDayData.Loading -> {
+            is PODState.Loading -> {
                 //showLoading()
             }
-            is PictureOfTheDayData.Error -> {
+            is PODState.Error -> {
                 //showError(data.error.message)
                 toast(data.error.message)
             }
@@ -148,7 +159,7 @@ class PictureOfTheDayFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance() = PictureOfTheDayFragment()
+        fun newInstance() = PODFragment()
         private var isMain = true
     }
 }

@@ -1,4 +1,4 @@
-package ru.sorokin.gb_material.Model
+package ru.sorokin.gb_material.model
 
 import com.google.gson.annotations.SerializedName
 
