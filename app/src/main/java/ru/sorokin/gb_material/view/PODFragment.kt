@@ -4,21 +4,24 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.chip.Chip
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.pod_fragment.*
 import ru.sorokin.gb_material.R
 import ru.sorokin.gb_material.databinding.BottomSheetLayoutBinding
 import ru.sorokin.gb_material.databinding.PodFragmentBinding
 import ru.sorokin.gb_material.util.*
 import ru.sorokin.gb_material.viewmodel.PODState
 import ru.sorokin.gb_material.viewmodel.PODViewModel
-import java.util.*
 
 class PODFragment : Fragment() {
 
@@ -104,13 +107,14 @@ class PODFragment : Fragment() {
                     .placeholder(R.drawable.ic_no_photo_vector)
                     .into(image_view, object : Callback {
                         override fun onSuccess() {
-                            podLoadingLayout.hide()
+                            binding.podLoadingLayout.hide()
                         }
 
                         override fun onError(e: Exception?) {
-                            podRootView.showSnackBar(getString(R.string.error_server_msg),
+                            binding.root.showSnackBar(
+                                getString(R.string.error_server_msg),
                                 getString(R.string.reload_msg),
-                                { getData() })
+                                { viewModel.getDataToday() })
                         }
                     })
             }
