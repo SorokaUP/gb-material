@@ -10,13 +10,13 @@ import com.google.android.material.chip.Chip
 import ru.sorokin.gb_material.R
 import kotlinx.android.synthetic.main.fragment_chips.*
 
-class ChipsFragment : Fragment() {
+class SettingsFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_chips, container, false)
+        return inflater.inflate(R.layout.settings_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
