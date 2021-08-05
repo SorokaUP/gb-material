@@ -13,4 +13,10 @@
     <string name="photoToday">Фото дня</string>
     <string name="reload_msg">Попробовать снова</string>
     <string name="error_server_msg">Ошибка загрузки</string>
+
+    <string name="settings_title">Настройки</string>
+    <string name="settings_theme_type_title">Тема оформления</string>
+    <string name="settings_type_indigo">Indigo</string>
+    <string name="settings_type_pink">Pink</string>
+    <string name="settings_button_apply">Применить</string>
 </resources>

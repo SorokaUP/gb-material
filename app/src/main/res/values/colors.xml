@@ -167,4 +167,5 @@
     <color name="colorOnSurface">#212121</color>
     <color name="colorBackground">@color/WhiteSmoke</color>
     <color name="colorOnBackground">#212121</color>
+    <color name="text_field_background">@color/DarkBlue</color>
 </resources>
