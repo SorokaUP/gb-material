@@ -25,24 +25,18 @@
                 tools:ignore="MissingConstraints">
 
                 <com.google.android.material.chip.Chip
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/ChipChoice"
                     android:checked="true"
                     android:id="@+id/photoToday"
                     android:text="@string/photoToday" />
 
                 <com.google.android.material.chip.Chip
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/ChipChoice"
                     android:id="@+id/photoBack1"
                     android:text="@string/photoBack1" />
 
                 <com.google.android.material.chip.Chip
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/ChipChoice"
                     android:id="@+id/photoBack2"
                     android:text="@string/photoBack2" />
 
@@ -121,6 +115,6 @@
         android:backgroundTint="@color/colorAccent"
         app:layout_anchor="@id/bottom_app_bar"
         app:srcCompat="@drawable/ic_plus_fab"
-        app:tint="#FFFFFF" />
+        app:tint="@color/fab_tint" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

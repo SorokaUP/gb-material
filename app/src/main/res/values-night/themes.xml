@@ -1,16 +1,71 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Gbmaterial" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">?themeColorPrimary</item>
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/black</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_200</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorPrimaryDark">#00352E</item>
+        <item name="colorAccent">@color/Brown</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+
+        <item name="colorPrimaryVariant">#00372F</item>
+        <item name="colorOnPrimary">#A6A6A6</item>
+        <item name="colorSecondaryVariant">#072677</item>
+        <item name="colorOnSecondary">#939393</item>
+        <item name="colorError">@color/Brown</item>
+        <item name="colorOnError">#656565</item>
+        <item name="colorSurface">@color/colorSurface</item>
+        <item name="colorOnSurface">@color/colorOnSurface</item>
+        <item name="android:colorBackground">#606060</item>
+        <item name="colorOnBackground">@color/colorOnBackground</item>
+
+        <item name="shapeAppearanceSmallComponent">@style/AppShapeAppearance.SmallComponent</item>
+        <item name="shapeAppearanceMediumComponent">@style/AppShapeAppearance.MediumComponent</item>
+        <item name="materialButtonStyle">@style/AppButton</item>
+        <item name="textInputStyle">@style/AppTextField</item>
+        <item name="materialCardViewStyle">@style/AppCard</item>
+    </style>
+
+    <style name="AppTheme.IndigoTheme">
+        <item name="colorPrimaryDark">@color/IndigoDark</item>
+        <item name="colorAccent">@color/IndigoLight</item>
+        <item name="textColorPrimary">@color/black</item>
+        <item name="textColorSecondary">@color/Gray</item>
+        <item name="textColorConnected">@color/Green</item>
+        <item name="textColorDisConnected">@color/LightGrey</item>
+        <item name="themeColorPrimary">@color/Indigo</item>
+    </style>
+
+    <style name="AppTheme.PinkTheme">
+        <item name="colorPrimaryDark">@color/PinkDark</item>
+        <item name="colorAccent">@color/LightPink</item>
+        <item name="textColorPrimary">@color/black</item>
+        <item name="textColorConnected">@color/Green</item>
+        <item name="textColorDisConnected">@color/LightGrey</item>
+        <item name="themeColorPrimary">@color/Pink</item>
+    </style>
+
+    <style name="AppShapeAppearance.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">cut</item>
+        <item name="cornerSize">8dp</item>
+    </style>
+
+    <style name="AppShapeAppearance.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">cut</item>
+        <item name="cornerSize">8dp</item>
+    </style>
+
+    <style name="AppButton" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">?attr/colorSecondary</item>
+    </style>
+
+    <style name="AppTextField"
+        parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="boxBackgroundColor">@color/text_field_background</item>
+    </style>
+
+    <style name="AppCard" parent="Widget.MaterialComponents.CardView">
+        <item name="cardElevation">8dp</item>
     </style>
 </resources>
