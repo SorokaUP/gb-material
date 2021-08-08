@@ -11,7 +11,7 @@ import retrofit2.Response
 
 class EarthViewModel : CommonViewModel() {
 
-    fun getEarthPhotoFromServer(dateString: String, lon: Float, lat: Float, dim: Float) {
+    fun getData(dateString: String, lon: Float, lat: Float, dim: Float) {
         data.value = AppState.Loading
         val apiKey: String = BuildConfig.NASA_API_KEY
         retrofitImpl.getEarthRetrofitImpl().getEarthPhoto(lon, lat, dim, apiKey, dateString)

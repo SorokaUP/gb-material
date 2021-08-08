@@ -46,7 +46,7 @@ class MarsFragment : Fragment() {
     }
 
     private fun getData() {
-        viewModel.getMarsPhotosFromServer(Date().subDays(daysBefore).format())
+        viewModel.getData(Date().subDays(daysBefore).format())
     }
 
     private fun renderData(data: AppState) = with(binding) {

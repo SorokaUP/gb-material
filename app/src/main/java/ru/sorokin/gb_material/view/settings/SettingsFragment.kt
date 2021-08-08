@@ -31,16 +31,16 @@ class SettingsFragment : Fragment() {
     }
 
     private fun initViews() = with(binding) {
-        (radioGroup.getChildAt(SettingsData.CURRENT_THEME) as RadioButton).isChecked = true
+        (radioGroup.getChildAt(SettingsData.currentTheme) as RadioButton).isChecked = true
 
         applyButton.setOnClickListener {
-            val oldValue = SettingsData.CURRENT_THEME
-            SettingsData.CURRENT_THEME = when (radioGroup.checkedRadioButtonId) {
+            val oldValue = SettingsData.currentTheme
+            SettingsData.currentTheme = when (radioGroup.checkedRadioButtonId) {
                 R.id.radio_button_teal -> SettingsData.THEME_PINK
                 else -> SettingsData.THEME_INDIGO
             }
             activity?.supportFragmentManager?.popBackStack()
-            if (SettingsData.CURRENT_THEME != oldValue) {
+            if (SettingsData.currentTheme != oldValue) {
                 writeSettings()
                 activity?.recreate()
             }
@@ -52,7 +52,7 @@ class SettingsFragment : Fragment() {
             with(
                 it.getSharedPreferences(SettingsData.PREFERENCE_NAME, Context.MODE_PRIVATE).edit()
             ) {
-                putInt(SettingsData.CURRENT_THEME_PREF_NAME, SettingsData.CURRENT_THEME)
+                putInt(SettingsData.CURRENT_THEME_PREF_NAME, SettingsData.currentTheme)
                 apply()
             }
         }

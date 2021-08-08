@@ -82,7 +82,7 @@ class EarthFragment : Fragment() {
     }
 
     private fun getData() {
-        viewModel.getEarthPhotoFromServer(
+        viewModel.getData(
             Date().format(),
             SettingsData.earthLon,
             SettingsData.earthLat,

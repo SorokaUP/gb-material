@@ -7,7 +7,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import ru.sorokin.gb_material.BuildConfig
+import ru.sorokin.gb_material.R
 import ru.sorokin.gb_material.model.RetrofitImpl
+import ru.sorokin.gb_material.model.earth.EarthResponseData
 import ru.sorokin.gb_material.model.pod.PODServerResponseData
 import ru.sorokin.gb_material.viewmodel.AppState
 import ru.sorokin.gb_material.viewmodel.CommonViewModel
@@ -17,12 +19,12 @@ import java.util.*
 class PODViewModel: CommonViewModel() {
 
     fun getData(dateString: String) {
-        data.value = AppState.Loading(null)
+        data.value = AppState.Loading
         val apiKey: String = BuildConfig.NASA_API_KEY
         if (apiKey.isBlank()) {
             AppState.Error(Throwable("Требуется API ключ для NASA"))
         } else {
-            retrofitImpl.getRetrofitImpl().getPictureOfTheDay(apiKey, dateString).enqueue(object :
+            retrofitImpl.getPODRetrofitImpl().getPictureOfTheDay(apiKey, dateString).enqueue(object :
                 Callback<PODServerResponseData> {
                 override fun onResponse(
                     call: Call<PODServerResponseData>,

@@ -12,7 +12,7 @@ import retrofit2.Response
 
 class MarsViewModel : CommonViewModel() {
 
-    fun getMarsPhotosFromServer(dateString: String) {
+    fun getData(dateString: String) {
         data.value = AppState.Loading
         val apiKey = BuildConfig.NASA_API_KEY
         val camera = SettingsData.marsRoverCamera
