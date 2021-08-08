@@ -9,6 +9,7 @@ import ru.sorokin.gb_material.viewmodel.CommonViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import ru.sorokin.gb_material.util.getResponse
 
 class MarsViewModel : CommonViewModel() {
 
@@ -23,17 +24,7 @@ class MarsViewModel : CommonViewModel() {
                     call: Call<MarsPhotosResponseData>,
                     response: Response<MarsPhotosResponseData>
                 ) {
-                    if (response.isSuccessful && response.body() != null) {
-                        data.value = AppState.Success(response.body()!!)
-                    } else {
-                        val message = response.message()
-                        if (message.isNullOrEmpty()) {
-                            data.value =
-                                AppState.Error(Throwable(getString(R.string.error_server_msg)))
-                        } else {
-                            data.value = AppState.Error(Throwable(message))
-                        }
-                    }
+                    data.value = response.getResponse()
                 }
 
                 override fun onFailure(call: Call<MarsPhotosResponseData>, t: Throwable) {

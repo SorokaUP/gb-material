@@ -1,20 +1,13 @@
 package ru.sorokin.gb_material.viewmodel.pod
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import ru.sorokin.gb_material.BuildConfig
-import ru.sorokin.gb_material.R
-import ru.sorokin.gb_material.model.RetrofitImpl
-import ru.sorokin.gb_material.model.earth.EarthResponseData
 import ru.sorokin.gb_material.model.pod.PODServerResponseData
 import ru.sorokin.gb_material.viewmodel.AppState
 import ru.sorokin.gb_material.viewmodel.CommonViewModel
-import java.text.SimpleDateFormat
-import java.util.*
+import ru.sorokin.gb_material.util.*
 
 class PODViewModel: CommonViewModel() {
 
@@ -30,19 +23,7 @@ class PODViewModel: CommonViewModel() {
                     call: Call<PODServerResponseData>,
                     response: Response<PODServerResponseData>
                 ) {
-                    if (response.isSuccessful && response.body() != null) {
-                        data.value =
-                            AppState.Success(response.body()!!)
-                    } else {
-                        val message = response.message()
-                        if (message.isNullOrEmpty()) {
-                            data.value =
-                                AppState.Error(Throwable("Неизвестная ошибка"))
-                        } else {
-                            data.value =
-                                AppState.Error(Throwable(message))
-                        }
-                    }
+                    data.value = response.getResponse()
                 }
 
                 override fun onFailure(call: Call<PODServerResponseData>, t: Throwable) {

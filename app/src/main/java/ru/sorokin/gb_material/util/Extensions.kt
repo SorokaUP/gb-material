@@ -6,7 +6,11 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.snackbar.Snackbar
+import retrofit2.Response
 import ru.sorokin.gb_material.R
+import ru.sorokin.gb_material.model.pod.PODServerResponseData
+import ru.sorokin.gb_material.viewmodel.AppState
+import java.lang.reflect.Type
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -63,3 +67,16 @@ fun Menu.hideAllItems() {
 }
 
 fun String.toEditable(): Editable = Editable.Factory.getInstance().newEditable(this)
+
+fun Response<*>.getResponse(): AppState {
+    if (isSuccessful && body() != null) {
+        return AppState.Success(body()!!)
+    } else {
+        val message = message()
+        if (message.isNullOrEmpty()) {
+            return AppState.Error(Throwable("Неизвестная ошибка"))
+        } else {
+            return AppState.Error(Throwable(message))
+        }
+    }
+}
