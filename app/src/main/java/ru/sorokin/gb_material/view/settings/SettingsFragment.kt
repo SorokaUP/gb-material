@@ -1,4 +1,4 @@
-package ru.sorokin.gb_material.view
+package ru.sorokin.gb_material.view.settings
 
 import android.content.Context
 import android.os.Bundle
@@ -6,11 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.google.android.material.chip.Chip
 import ru.sorokin.gb_material.R
-import ru.sorokin.gb_material.model.SettingsData
+import ru.sorokin.gb_material.model.settings.SettingsData
 import ru.sorokin.gb_material.databinding.SettingsFragmentBinding
 
 class SettingsFragment : Fragment() {

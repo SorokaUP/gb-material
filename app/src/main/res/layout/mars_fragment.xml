@@ -2,17 +2,17 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/pod_root_view"
+    android:id="@+id/mars_root_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".view.pod.PODFragment">
+    tools:context=".view.mars.MarsFragment">
 
     <androidx.core.widget.NestedScrollView
-        android:id="@+id/pod_nested_scroll_view"
+        android:id="@+id/mars_nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="5dp">
+        android:paddingTop="20dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -20,59 +20,55 @@
             android:paddingStart="10dp"
             android:paddingEnd="10dp">
 
-            <HorizontalScrollView
-                android:id="@+id/day_chip_scroll"
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/mars_info_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@id/pod_image_view"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@id/mars_image_view"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/chipGroup"
-                    android:layout_width="wrap_content"
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    app:chipSpacingHorizontal="15dp"
-                    app:singleLine="true"
-                    app:singleSelection="true">
+                    android:orientation="horizontal">
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/photo_today_chip"
-                        style="@style/ChipChoice"
-                        android:text="@string/photoToday" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/PromptTextView"
+                        android:layout_marginBottom="20dp"
+                        android:text="@string/mars_date_title" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/photo_yesterday_chip"
-                        style="@style/ChipChoice"
-                        android:text="@string/photoYesterday" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/mars_date_text_view"
+                        style="@style/PromptTextView"
+                        android:layout_marginBottom="20dp"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
+                        android:textColor="?attr/colorOnSecondary" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/photo_before_yesterday_chip"
-                        style="@style/ChipChoice"
-                        android:text="@string/photoBeforeYesterday" />
-                </com.google.android.material.chip.ChipGroup>
-            </HorizontalScrollView>
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
             <ru.sorokin.gb_material.util.EquilateralImageView
-                android:id="@+id/pod_image_view"
+                android:id="@+id/mars_image_view"
                 style="@style/EquilateralImageView"
-                android:contentDescription="@string/pod_description"
+                android:contentDescription="@string/mars_description"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/day_chip_scroll"
+                app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_no_photo_vector" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
     <FrameLayout
-        android:id="@+id/pod_loading_layout"
+        android:id="@+id/mars_loading_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
-        app:layout_anchor="@+id/pod_nested_scroll_view"
+        app:layout_anchor="@+id/mars_nested_scroll_view"
         app:layout_anchorGravity="center"
         tools:visibility="visible">
 
@@ -83,7 +79,5 @@
             android:layout_gravity="center"
             android:indeterminateTint="?attr/colorPrimary" />
     </FrameLayout>
-
-    <include layout="@layout/bottom_sheet_layout" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -28,4 +28,17 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="error_msg">Ошибка загрузки</string>
+    <string name="pod_description">Picture of the Day</string>
+    <string name="photoYesterday">Фото вчера</string>
+    <string name="photoBeforeYesterday">Фото позавчера</string>
+    <string name="earth_description">Earth photo</string>
+    <string name="mars_description">Mars Rover photo</string>
+    <string name="settings_action_text">Настройки</string>
+    <string name="error_request_msg">Ошибка запроса</string>
+    <string name="earth_apply_action">Применить</string>
+    <string name="dim">Уменьшить ширину и высоту</string>
+    <string name="longitude">Долгота</string>
+    <string name="latitude">Широта</string>
+    <string name="mars_date_title">Дата планеты</string>
 </resources>
