@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/earth_root_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".view.earth.EarthFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/earth_nested_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="5dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/earth_input_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@id/earth_image_view"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/PromptTextView"
+                        android:labelFor="@id/earth_lat_edit_text"
+                        android:text="@string/latitude" />
+
+                    <EditText
+                        android:id="@+id/earth_lat_edit_text"
+                        style="@style/EditTextViewDecimal"
+                        android:autofillHints="@string/latitude" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/PromptTextView"
+                        android:labelFor="@id/earth_lon_edit_text"
+                        android:text="@string/longitude" />
+
+                    <EditText
+                        android:id="@+id/earth_lon_edit_text"
+                        style="@style/EditTextViewDecimal"
+                        android:autofillHints="@string/longitude" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/PromptTextView"
+                        android:labelFor="@id/earth_dim_edit_text"
+                        android:text="@string/dim" />
+
+                    <EditText
+                        android:id="@+id/earth_dim_edit_text"
+                        style="@style/EditTextViewDecimal"
+                        android:autofillHints="@string/dim" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/earth_apply_chip"
+                        style="@style/ChipAction"
+                        android:layout_gravity="end"
+                        android:text="@string/earth_apply_action" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <ru.sorokin.gb_material.util.EquilateralImageView
+                android:id="@+id/earth_image_view"
+                style="@style/EquilateralImageView"
+                android:contentDescription="@string/earth_description"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/earth_input_layout"
+                app:srcCompat="@drawable/ic_no_photo_vector" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <FrameLayout
+        android:id="@+id/earth_loading_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:layout_anchor="@+id/earth_nested_scroll_view"
+        app:layout_anchorGravity="center"
+        tools:visibility="visible">
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminateTint="?attr/colorPrimary" />
+    </FrameLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

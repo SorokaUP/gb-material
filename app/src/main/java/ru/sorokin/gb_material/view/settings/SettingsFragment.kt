@@ -1,4 +1,4 @@
-package ru.sorokin.gb_material.view
+package ru.sorokin.gb_material.view.settings
 
 import android.content.Context
 import android.os.Bundle
@@ -6,11 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.google.android.material.chip.Chip
 import ru.sorokin.gb_material.R
-import ru.sorokin.gb_material.model.SettingsData
+import ru.sorokin.gb_material.model.settings.SettingsData
 import ru.sorokin.gb_material.databinding.SettingsFragmentBinding
 
 class SettingsFragment : Fragment() {
@@ -33,16 +31,16 @@ class SettingsFragment : Fragment() {
     }
 
     private fun initViews() = with(binding) {
-        (radioGroup.getChildAt(SettingsData.CURRENT_THEME) as RadioButton).isChecked = true
+        (radioGroup.getChildAt(SettingsData.currentTheme) as RadioButton).isChecked = true
 
         applyButton.setOnClickListener {
-            val oldValue = SettingsData.CURRENT_THEME
-            SettingsData.CURRENT_THEME = when (radioGroup.checkedRadioButtonId) {
+            val oldValue = SettingsData.currentTheme
+            SettingsData.currentTheme = when (radioGroup.checkedRadioButtonId) {
                 R.id.radio_button_teal -> SettingsData.THEME_PINK
                 else -> SettingsData.THEME_INDIGO
             }
             activity?.supportFragmentManager?.popBackStack()
-            if (SettingsData.CURRENT_THEME != oldValue) {
+            if (SettingsData.currentTheme != oldValue) {
                 writeSettings()
                 activity?.recreate()
             }
@@ -54,7 +52,7 @@ class SettingsFragment : Fragment() {
             with(
                 it.getSharedPreferences(SettingsData.PREFERENCE_NAME, Context.MODE_PRIVATE).edit()
             ) {
-                putInt(SettingsData.CURRENT_THEME_PREF_NAME, SettingsData.CURRENT_THEME)
+                putInt(SettingsData.CURRENT_THEME_PREF_NAME, SettingsData.currentTheme)
                 apply()
             }
         }
