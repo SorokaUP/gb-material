@@ -1,15 +1,21 @@
 package ru.sorokin.gb_material.view.main
 
 import android.content.Context
+import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
+import android.view.View.GONE
+import android.widget.Toast
 import androidx.viewpager.widget.ViewPager
 import me.relex.circleindicator.CircleIndicator
 import ru.sorokin.gb_material.R
 import ru.sorokin.gb_material.model.settings.SettingsData
 import ru.sorokin.gb_material.util.addFragmentWithBackStack
+import ru.sorokin.gb_material.view.about.AboutFragment
 import ru.sorokin.gb_material.view.pod.PODFragment
 import ru.sorokin.gb_material.view.settings.SettingsFragment
 
@@ -35,6 +41,7 @@ class MainActivity : AppCompatActivity() {
 
         val indicator = findViewById<CircleIndicator>(R.id.main_indicator)
         indicator.setViewPager(viewPager)
+        indicator.visibility = GONE
     }
 
     private fun readSettings() {
@@ -62,6 +69,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
+        menuInflater.inflate(R.menu.menu_bottom_bar, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -78,6 +86,12 @@ class MainActivity : AppCompatActivity() {
                 supportFragmentManager.addFragmentWithBackStack(SettingsFragment())
                 return true
             }
+            R.id.about_action -> {
+                supportFragmentManager.addFragmentWithBackStack(AboutFragment())
+                return true
+            }
+            R.id.app_bar_fav -> Toast.makeText(this, "Favourite", Toast.LENGTH_SHORT).show()
+            R.id.app_bar_search -> Toast.makeText(this, "Search", Toast.LENGTH_SHORT).show()
         }
         return false
     }
