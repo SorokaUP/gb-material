@@ -41,4 +41,6 @@
     <string name="longitude">Долгота</string>
     <string name="latitude">Широта</string>
     <string name="mars_date_title">Дата планеты</string>
+
+    <string name="nasa_api_key_blank">Требуется ключ API NASA</string>
 </resources>

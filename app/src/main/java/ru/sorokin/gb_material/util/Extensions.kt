@@ -6,6 +6,8 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.snackbar.Snackbar
+import com.squareup.picasso.Callback
+import com.squareup.picasso.Picasso
 import retrofit2.Response
 import ru.sorokin.gb_material.R
 import ru.sorokin.gb_material.model.pod.PODServerResponseData
@@ -79,4 +81,45 @@ fun Response<*>.getResponse(): AppState {
             return AppState.Error(Throwable(message))
         }
     }
+}
+
+fun Fragment.loadImageFromCallback(
+    url: String?,
+    imageView: EquilateralImageView,
+    loadingLayout: View,
+    rootView: View,
+    actionReload: (View) -> Unit
+) {
+    Picasso
+        .get()
+        .load(url)
+        .placeholder(R.drawable.ic_no_photo_vector)
+        .into(imageView, object : Callback {
+            override fun onSuccess() {
+                loadingLayout.hide()
+            }
+
+            override fun onError(e: Exception?) {
+                rootView.showSnackBar(
+                    e?.message
+                        ?: getString(R.string.error_server_msg),
+                    getString(R.string.reload_msg),
+                    actionReload
+                )
+            }
+        })
+}
+
+fun Fragment.callbackError(
+    errorMessage: String?,
+    loadingLayout: View,
+    rootView: View,
+    actionReload: (View) -> Unit
+) {
+    loadingLayout.hide()
+    rootView.showSnackBar(
+        errorMessage ?: getString(R.string.error_msg),
+        getString(R.string.reload_msg),
+        actionReload
+    )
 }

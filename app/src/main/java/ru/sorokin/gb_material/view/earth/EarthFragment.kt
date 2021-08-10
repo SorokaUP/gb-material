@@ -98,31 +98,22 @@ class EarthFragment : Fragment() {
 
                 val url = data.response.url
 
-                Picasso
-                    .get()
-                    .load(url)
-                    .placeholder(R.drawable.ic_no_photo_vector)
-                    .into(earthImageView, object : Callback {
-                        override fun onSuccess() {
-                            earthLoadingLayout.hide()
-                        }
-
-                        override fun onError(e: Exception?) {
-                            earthRootView.showSnackBar(e?.message
-                                ?: getString(R.string.error_server_msg),
-                                getString(R.string.reload_msg),
-                                { getData() })
-                        }
-                    })
+                loadImageFromCallback(
+                    url,
+                    earthImageView,
+                    earthLoadingLayout,
+                    earthRootView
+                ) { getData() }
             }
             is AppState.Loading -> {
                 earthLoadingLayout.show()
             }
             is AppState.Error -> {
-                earthLoadingLayout.hide()
-                earthRootView.showSnackBar(data.error.message ?: getString(R.string.error_msg),
-                    getString(R.string.reload_msg),
-                    { getData() })
+                callbackError(
+                    data.error.message ?: getString(R.string.error_msg),
+                    earthLoadingLayout,
+                    earthRootView
+                ) { getData() }
             }
         }
     }

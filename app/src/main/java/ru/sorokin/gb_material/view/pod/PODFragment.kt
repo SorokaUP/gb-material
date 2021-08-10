@@ -99,22 +99,12 @@ class PODFragment : Fragment() {
                 val url = serverResponseData.url
 
                 if (data.response.mediaType == "image") {
-                    Picasso
-                        .get()
-                        .load(url)
-                        .placeholder(R.drawable.ic_no_photo_vector)
-                        .into(podImageView, object : Callback {
-                            override fun onSuccess() {
-                                podLoadingLayout.hide()
-                            }
-
-                            override fun onError(e: Exception?) {
-                                podRootView.showSnackBar(e?.message
-                                    ?: getString(R.string.error_server_msg),
-                                    getString(R.string.reload_msg),
-                                    { getData() })
-                            }
-                        })
+                    loadImageFromCallback(
+                        url,
+                        podImageView,
+                        podLoadingLayout,
+                        podRootView
+                    ) { getData() }
 
                     bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
                 } else {
@@ -132,10 +122,11 @@ class PODFragment : Fragment() {
                 podLoadingLayout.show()
             }
             is AppState.Error -> {
-                podLoadingLayout.hide()
-                root.showSnackBar(data.error.message ?: getString(R.string.error_msg),
-                    getString(R.string.reload_msg),
-                    { getData() })
+                callbackError(
+                    data.error.message ?: getString(R.string.error_msg),
+                    podLoadingLayout,
+                    root
+                ) { getData() }
             }
         }
     }
