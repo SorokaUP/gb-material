@@ -83,7 +83,8 @@ class PODFragment : Fragment() {
                     }
                 }
                 startActivity(Intent(Intent.ACTION_VIEW).apply {
-                    data = Uri.parse("${SettingsData.WIKI_URI.replace("@",lang)}${binding.inputEditText.text.toString()}")
+                    val wikiUri = SettingsData.WIKI_URI.replace("@",lang)
+                    data = Uri.parse("${wikiUri}${binding.inputEditText.text.toString()}")
                 })
             }
         }
