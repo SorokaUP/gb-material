@@ -4,10 +4,14 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.chip.Chip
 import com.squareup.picasso.Callback
@@ -19,6 +23,8 @@ import ru.sorokin.gb_material.databinding.PodFragmentBinding
 import ru.sorokin.gb_material.model.pod.PODServerResponseData
 import ru.sorokin.gb_material.model.settings.SettingsData
 import ru.sorokin.gb_material.util.*
+import ru.sorokin.gb_material.view.main.MainActivity
+import ru.sorokin.gb_material.view.settings.SettingsFragment
 import ru.sorokin.gb_material.viewmodel.AppState
 import ru.sorokin.gb_material.viewmodel.pod.PODViewModel
 import java.util.*
@@ -31,6 +37,8 @@ class PODFragment : Fragment() {
     private var _bottomSheetBinding: BottomSheetLayoutBinding? = null
     private val bottomSheetBinding get() = _bottomSheetBinding!!
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
+
+    private var isMain = true
 
     private val viewModel: PODViewModel by lazy {
         ViewModelProvider(this).get(PODViewModel::class.java)
@@ -49,10 +57,37 @@ class PODFragment : Fragment() {
 
         initBottomSheetBehavior(view)
         initChips()
+        setWiki()
+        setBottomAppBar(view)
 
         val observer = Observer<AppState> { renderData(it) }
         viewModel.setStringResources { id: Int -> getString(id) }
         viewModel.getLiveData().observe(viewLifecycleOwner, observer)
+
+        getData()
+    }
+
+    private fun setWiki() {
+        binding.inputLayout.setStartIconOnClickListener {
+            val myTextLength = binding.inputEditText?.text?.length
+            if (myTextLength != null && myTextLength > 20) {
+                binding.inputLayout.isStartIconCheckable = false
+                Toast.makeText(context, getString(R.string.text_is_too_long), Toast.LENGTH_SHORT).show()
+            } else {
+                val lang = when (Locale.getDefault().language){
+                    "ru" -> {
+                        "ru"
+                    }
+                    else -> {
+                        "com"
+                    }
+                }
+                startActivity(Intent(Intent.ACTION_VIEW).apply {
+                    val wikiUri = SettingsData.WIKI_URI.replace("@",lang)
+                    data = Uri.parse("${wikiUri}${binding.inputEditText.text.toString()}")
+                })
+            }
+        }
     }
 
     private fun getData() {
@@ -99,22 +134,12 @@ class PODFragment : Fragment() {
                 val url = serverResponseData.url
 
                 if (data.response.mediaType == "image") {
-                    Picasso
-                        .get()
-                        .load(url)
-                        .placeholder(R.drawable.ic_no_photo_vector)
-                        .into(podImageView, object : Callback {
-                            override fun onSuccess() {
-                                podLoadingLayout.hide()
-                            }
-
-                            override fun onError(e: Exception?) {
-                                podRootView.showSnackBar(e?.message
-                                    ?: getString(R.string.error_server_msg),
-                                    getString(R.string.reload_msg),
-                                    { getData() })
-                            }
-                        })
+                    loadImageFromCallback(
+                        url,
+                        podImageView,
+                        podLoadingLayout,
+                        podRootView
+                    ) { getData() }
 
                     bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
                 } else {
@@ -132,16 +157,55 @@ class PODFragment : Fragment() {
                 podLoadingLayout.show()
             }
             is AppState.Error -> {
-                podLoadingLayout.hide()
-                root.showSnackBar(data.error.message ?: getString(R.string.error_msg),
-                    getString(R.string.reload_msg),
-                    { getData() })
+                callbackError(
+                    data.error.message ?: getString(R.string.error_msg),
+                    podLoadingLayout,
+                    root
+                ) { getData() }
+            }
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_bottom_bar, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.app_bar_fav -> Toast.makeText(context, "Favourite", Toast.LENGTH_SHORT).show()
+            R.id.app_bar_settings -> (activity as MainActivity).supportFragmentManager.addFragmentWithBackStack(SettingsFragment())
+            R.id.app_bar_search -> Toast.makeText(context, "Search", Toast.LENGTH_SHORT).show()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun setBottomAppBar(view: View) {
+        val context = activity as MainActivity
+        context.setSupportActionBar(view.findViewById(R.id.bottom_app_bar))
+        setHasOptionsMenu(true)
+
+        fab.setOnClickListener {
+            if (isMain) {
+                isMain = false
+                bottom_app_bar.navigationIcon = null
+                bottom_app_bar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
+                fab.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_back_fab))
+                bottom_app_bar.replaceMenu(R.menu.menu_bottom_bar_other_screen)
+            } else {
+                isMain = true
+                bottom_app_bar.navigationIcon =
+                    ContextCompat.getDrawable(context, R.drawable.ic_hamburger_menu_bottom_bar)
+                bottom_app_bar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
+                fab.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_plus_fab))
+                bottom_app_bar.replaceMenu(R.menu.menu_bottom_bar)
             }
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        isMain = true
         _binding = null
     }
 }

@@ -70,32 +70,23 @@ class MarsFragment : Fragment() {
                     val earthDate = responseData.photos.first().earth_date
                     marsDateTextView.text = earthDate
 
-                    Picasso
-                        .get()
-                        .load(url)
-                        .placeholder(R.drawable.ic_no_photo_vector)
-                        .into(marsImageView, object : Callback {
-                            override fun onSuccess() {
-                                marsLoadingLayout.hide()
-                            }
-
-                            override fun onError(e: Exception?) {
-                                marsRootView.showSnackBar(e?.message
-                                    ?: getString(R.string.error_server_msg),
-                                    getString(R.string.reload_msg),
-                                    { getData() })
-                            }
-                        })
+                    loadImageFromCallback(
+                        url,
+                        marsImageView,
+                        marsLoadingLayout,
+                        marsRootView
+                    ) { getData() }
                 }
             }
             is AppState.Loading -> {
                 marsLoadingLayout.show()
             }
             is AppState.Error -> {
-                marsLoadingLayout.hide()
-                marsRootView.showSnackBar(data.error.message ?: getString(R.string.error_msg),
-                    getString(R.string.reload_msg),
-                    { getData() })
+                callbackError(
+                    data.error.message ?: getString(R.string.error_msg),
+                    marsLoadingLayout,
+                    marsRootView
+                ) { getData() }
             }
         }
     }

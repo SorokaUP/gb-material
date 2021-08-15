@@ -8,6 +8,7 @@ object SettingsData {
     const val CURRENT_EARTH_LON = "EARTH_LON"
     const val CURRENT_EARTH_LAT = "EARTH_LAT"
     const val CURRENT_EARTH_DIM = "EARTH_DIM"
+    const val WIKI_URI = "https://@.wikipedia.org/wiki/" // @ заменяется текущим языком [ru|com]
 
     //region Theme
     const val THEME_INDIGO_ID = R.style.AppTheme_IndigoTheme
