@@ -25,6 +25,8 @@ class MarsFragment : Fragment() {
         ViewModelProvider(this).get(MarsViewModel::class.java)
     }
 
+    private var isImageExpanded = false
+
     private var daysBefore = START_DAYS_BEFORE
 
     override fun onCreateView(
@@ -38,11 +40,20 @@ class MarsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initImageExpansion()
+
         val observer = Observer<AppState> { renderData(it) }
         viewModel.setStringResources { id: Int -> getString(id) }
         viewModel.getLiveData().observe(viewLifecycleOwner, observer)
 
         getData()
+    }
+
+    private fun initImageExpansion() = with(binding) {
+        marsImageView.setOnClickListener {
+            isImageExpanded = isImageExpanded.not()
+            marsImageView.imageTransform(isImageExpanded, marsRootView)
+        }
     }
 
     private fun getData() {
