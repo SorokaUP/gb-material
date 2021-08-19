@@ -44,6 +44,8 @@ class PODFragment : Fragment() {
         ViewModelProvider(this).get(PODViewModel::class.java)
     }
 
+    private var isImageExpanded = false
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -59,12 +61,20 @@ class PODFragment : Fragment() {
         initChips()
         setWiki()
         setBottomAppBar(view)
+        initImageExpansion()
 
         val observer = Observer<AppState> { renderData(it) }
         viewModel.setStringResources { id: Int -> getString(id) }
         viewModel.getLiveData().observe(viewLifecycleOwner, observer)
 
         getData()
+    }
+
+    private fun initImageExpansion() = with(binding) {
+        podImageView.setOnClickListener {
+            isImageExpanded = isImageExpanded.not()
+            podImageView.imageTransform(isImageExpanded, podRootView)
+        }
     }
 
     private fun setWiki() {

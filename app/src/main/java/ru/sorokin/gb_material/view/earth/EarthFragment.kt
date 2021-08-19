@@ -27,6 +27,8 @@ class EarthFragment : Fragment() {
         ViewModelProvider(this).get(EarthViewModel::class.java)
     }
 
+    private var isImageExpanded = false
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,6 +40,7 @@ class EarthFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initImageExpansion()
         initViews()
 
         val observer = Observer<AppState> { renderData(it) }
@@ -45,6 +48,13 @@ class EarthFragment : Fragment() {
         viewModel.getLiveData().observe(viewLifecycleOwner, observer)
 
         getData()
+    }
+
+    private fun initImageExpansion() = with(binding) {
+        earthImageView.setOnClickListener {
+            isImageExpanded = isImageExpanded.not()
+            earthImageView.imageTransform(isImageExpanded, earthRootView)
+        }
     }
 
     private fun initViews() = with(binding) {

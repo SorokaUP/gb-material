@@ -10,6 +10,8 @@ import android.view.MenuItem
 import android.view.View
 import android.view.View.GONE
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.viewpager.widget.ViewPager
 import me.relex.circleindicator.CircleIndicator
 import ru.sorokin.gb_material.R
@@ -42,6 +44,13 @@ class MainActivity : AppCompatActivity() {
         val indicator = findViewById<CircleIndicator>(R.id.main_indicator)
         indicator.setViewPager(viewPager)
         indicator.visibility = GONE
+
+        //val container = findViewById<ConstraintLayout>(R.id.container)
+        val container = findViewById<CoordinatorLayout>(R.id.container)
+        container
+            .animate()
+            .alpha(1F)
+            .duration = 1000
     }
 
     private fun readSettings() {

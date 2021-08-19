@@ -3,8 +3,14 @@ package ru.sorokin.gb_material.util
 import android.text.Editable
 import android.view.Menu
 import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.transition.ChangeBounds
+import androidx.transition.ChangeImageTransform
+import androidx.transition.TransitionManager
+import androidx.transition.TransitionSet
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
@@ -53,6 +59,7 @@ fun View.showSnackBar(
 
 fun FragmentManager.addFragmentWithBackStack(fragment: Fragment) = this.apply {
     beginTransaction()
+        .setCustomAnimations(R.animator.slide_in_left, R.animator.slide_in_right)
         .add(R.id.container, fragment)
         .addToBackStack(null)
         .commit()
@@ -122,4 +129,29 @@ fun Fragment.callbackError(
         getString(R.string.reload_msg),
         actionReload
     )
+}
+
+fun EquilateralImageView.imageTransform(
+    isExpanded: Boolean,
+    rootView: ViewGroup
+) {
+    TransitionManager.beginDelayedTransition(
+        rootView, TransitionSet()
+            .addTransition(ChangeBounds())
+            .addTransition(ChangeImageTransform())
+    )
+    val params: ViewGroup.LayoutParams = this.layoutParams
+    params.height =
+        if (isExpanded) {
+            ViewGroup.LayoutParams.MATCH_PARENT
+        } else {
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        }
+    this.layoutParams = params
+    this.scaleType =
+        if (isExpanded) {
+            ImageView.ScaleType.CENTER_CROP
+        } else {
+            ImageView.ScaleType.FIT_CENTER
+        }
 }
