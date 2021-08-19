@@ -11,6 +11,7 @@ import android.view.View
 import android.view.View.GONE
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.viewpager.widget.ViewPager
 import me.relex.circleindicator.CircleIndicator
 import ru.sorokin.gb_material.R
@@ -44,7 +45,8 @@ class MainActivity : AppCompatActivity() {
         indicator.setViewPager(viewPager)
         indicator.visibility = GONE
 
-        val container = findViewById<ConstraintLayout>(R.id.container)
+        //val container = findViewById<ConstraintLayout>(R.id.container)
+        val container = findViewById<CoordinatorLayout>(R.id.container)
         container
             .animate()
             .alpha(1F)
