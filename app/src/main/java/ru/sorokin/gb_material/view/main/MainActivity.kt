@@ -18,6 +18,7 @@ import ru.sorokin.gb_material.R
 import ru.sorokin.gb_material.model.settings.SettingsData
 import ru.sorokin.gb_material.util.addFragmentWithBackStack
 import ru.sorokin.gb_material.view.about.AboutFragment
+import ru.sorokin.gb_material.view.notes.NotesFragment
 import ru.sorokin.gb_material.view.pod.PODFragment
 import ru.sorokin.gb_material.view.settings.SettingsFragment
 
@@ -91,6 +92,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun doAction(id: Int): Boolean {
         when (id) {
+            R.id.notes_action -> {
+                supportFragmentManager.addFragmentWithBackStack(NotesFragment())
+                return true
+            }
             R.id.settings_action -> {
                 supportFragmentManager.addFragmentWithBackStack(SettingsFragment())
                 return true

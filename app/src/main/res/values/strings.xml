@@ -69,4 +69,9 @@
         "education efforts in STEM with an emphasis on increasing diversity in our future workforce.\n\n"
     </string>
     <string name="text_is_too_long">Слишком много символов</string>
+
+    <string name="notes_action_text">Заметки</string>
+    <string name="notes_add_action_text">Add Note</string>
+    <string name="notes_edit_action_text">Edit Note</string>
+    <string name="notes_delete_action_text">Delete Note</string>
 </resources>
