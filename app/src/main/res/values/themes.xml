@@ -20,6 +20,7 @@
         <item name="android:colorBackground">@color/colorBackground</item>
         <item name="colorOnBackground">@color/colorOnBackground</item>
 
+        <item name="android:fontFamily">@font/colombia</item>
         <!--<item name="shapeAppearanceSmallComponent">@style/AppShapeAppearance.SmallComponent</item>
         <item name="shapeAppearanceMediumComponent">@style/AppShapeAppearance.MediumComponent</item>
         <item name="materialButtonStyle">@style/AppButton</item>
@@ -35,6 +36,7 @@
         <item name="textColorConnected">@color/Green</item>
         <item name="textColorDisConnected">@color/LightGrey</item>
         <item name="themeColorPrimary">@color/Indigo</item>
+        <item name="android:fontFamily">@font/colombia</item>
     </style>
 
     <style name="AppTheme.PinkTheme">
